@@ -1,1 +1,82 @@
 # VivaShop
+
+## Visão Geral
+O **VivaShop** é uma plataforma de compras simples que oferece aos usuários a possibilidade de navegar por quatro categorias de produtos: calçados, móveis, eletrodomésticos e beleza. O sistema conta com uma interface limpa e fácil de usar, permitindo que os usuários se registrem, façam login, visualizem produtos, adicionem ao carrinho e finalizem a compra.
+
+## Estrutura do Site
+
+### 1. Tela de Login
+- A tela de login é a primeira interação do usuário com o site.
+- O usuário deve fornecer suas credenciais (nome de usuário e senha) para acessar a plataforma.
+- Caso o usuário não tenha uma conta, uma opção de cadastro estará disponível.
+
+### 2. Menu Lateral
+- O menu lateral é fixo e acessível em todas as páginas do site.
+- Ele oferece links para:
+  - **Login**: Página de login do usuário.
+  - **Categorias de Produtos**:
+    - **Calçados**
+    - **Móveis**
+    - **Eletrodomésticos**
+    - **Beleza**
+- Ao clicar em uma categoria, o usuário será redirecionado para uma página com todos os produtos dessa categoria.
+
+### 3. Página de Produtos
+- Cada produto listado terá as seguintes informações:
+  - **Nome do Produto**
+  - **Descrição**
+  - **Preço**
+  - **Imagem do Produto**
+- O usuário poderá visualizar o produto, ver mais detalhes e escolher a quantidade desejada para adicionar ao **Carrinho**.
+- **Botão "Adicionar ao Carrinho"**: Permite que o usuário adicione o produto ao carrinho de compras.
+
+### 4. Carrinho de Compras
+- A página do carrinho exibe todos os produtos que o usuário adicionou, com as seguintes informações:
+  - Nome do Produto
+  - Quantidade
+  - Preço unitário
+  - Subtotal por item
+- O carrinho também mostra o **Preço Total** dos itens selecionados.
+- O usuário pode alterar a quantidade de itens ou remover produtos do carrinho.
+
+### 5. Finalização de Compra
+- Após revisar o carrinho, o usuário pode prosseguir para a finalização da compra.
+- A página de finalização de compra pede as informações de pagamento e endereço de entrega.
+- O usuário tem a opção de revisar seu pedido antes de confirmar a compra.
+
+## Funcionalidades Principais
+
+### Login
+- O usuário pode fazer login para acessar suas informações e realizar compras.
+- Caso não tenha uma conta, o usuário pode se cadastrar na plataforma.
+
+### Visualização de Produtos
+- O sistema exibe produtos divididos em quatro categorias: calçados, móveis, eletrodomésticos e beleza.
+- A cada categoria, o usuário pode ver uma lista com os produtos disponíveis e acessar mais detalhes sobre cada um.
+
+### Carrinho de Compras
+- O carrinho mantém os produtos que o usuário deseja comprar.
+- O valor total da compra é automaticamente atualizado conforme o usuário adicionar ou remover itens.
+
+### Finalização da Compra
+- O usuário pode fornecer suas informações de pagamento e entrega para concluir a compra.
+- O sistema exibe um resumo do pedido antes da finalização.
+
+## Estrutura Técnica
+
+O site será desenvolvido utilizando as seguintes tecnologias:
+
+- **Frontend**: Blazor WebAssembly
+  - Blazor WebAssembly permite que o site seja interativo e responsivo, utilizando C# para a lógica do frontend, em vez de JavaScript.
+  - O Blazor permite a criação de componentes reutilizáveis para a interface do usuário, como formulários de login, carrinho de compras e visualização de produtos.
+  
+- **Backend**: API RESTful
+  - A API será responsável pela comunicação entre o frontend e o banco de dados.
+  - Ela irá gerenciar a autenticação de usuários, armazenamento de produtos e carrinhos de compras.
+  - O backend também será responsável pela finalização de compras e controle de inventário.
+
+- **Banco de Dados**: SQL Server
+  - O banco de dados armazena as informações dos usuários, produtos, categorias, carrinho de compras e transações.
+
+## Conclusão
+O **VivaShop** é uma plataforma de compras simples e eficiente, com um design intuitivo para facilitar a navegação e compra dos produtos. O site oferece funcionalidades básicas, como login de usuário, categorização de produtos, carrinho de compras e finalização de pedidos, utilizando tecnologias modernas e seguras para garantir uma experiência de usuário agradável e segura.
