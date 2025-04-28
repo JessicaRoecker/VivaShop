@@ -1,0 +1,50 @@
+﻿
+## Requisitos Funcionais
+
+1. **Tela de Login**:
+   - O usuário poderá fazer login utilizando seu e-mail e senha.
+   - O sistema validará as credenciais e, em caso de sucesso, redirecionará o usuário para a página principal do site.
+   
+2. **Menu Lateral**:
+   - O menu lateral será responsável pelo acesso à tela de login e pelas quatro categorias de produtos: calçados, móveis, eletrodomésticos e beleza.
+   - O usuário poderá clicar em qualquer categoria para visualizar os produtos dessa categoria.
+
+3. **Visualização de Produtos**:
+   - Ao clicar em um produto, o usuário será redirecionado para uma página que exibirá as descrições do produto, imagem e preço.
+   - O usuário terá a opção de adicionar o produto ao carrinho ou comprar imediatamente.
+
+4. **Carrinho de Compras**:
+   - O carrinho exibirá todos os itens que o usuário adicionou, com suas respectivas descrições, quantidades e valores.
+   - O carrinho também calculará automaticamente o preço total.
+   - O usuário poderá excluir itens do carrinho.
+   
+5. **Finalização de Compra**:
+   - O usuário poderá finalizar a compra, sendo direcionado a uma página de pagamento.
+   - Na parte de pagamento, o usuário informará o endereço de entrega, que incluirá: cidade, rua, número da casa, bairro, estado, telefone.
+
+6. **Cadastro e Armazenamento de Dados do Usuário**:
+   - O sistema armazenará as informações do usuário, como nome, e-mail, senha (com hash), endereço de entrega (na parte de pagamento), e informações do carrinho.
+   - As senhas serão armazenadas de forma segura, utilizando uma técnica de hash.
+
+---
+
+## Requisitos Não Funcionais
+
+1. **Segurança**:
+   - As senhas dos usuários serão armazenadas de forma segura, utilizando um algoritmo de hash, como SHA-256 ou bcrypt.
+   - As informações do usuário, como endereço e telefone, serão tratadas de acordo com as regulamentações de proteção de dados pessoais.
+
+2. **Performance**:
+   - O site deverá ser rápido, com um tempo de resposta inferior a 2 segundos para a navegação entre as páginas principais.
+   - O sistema deverá ser capaz de suportar até 1.000 acessos simultâneos sem degradação significativa de desempenho.
+
+3. **Escalabilidade**:
+   - O sistema deverá ser capaz de escalar para suportar um aumento no número de usuários e produtos sem comprometer a performance.
+   
+4. **Compatibilidade**:
+   - O site será responsivo, funcionando adequadamente em dispositivos móveis e desktop.
+   - O site será compatível com os navegadores mais utilizados, como Google Chrome, Firefox e Safari.
+
+5. **Usabilidade**:
+   - O layout do site será intuitivo, com fácil navegação entre as páginas de categorias, produtos, carrinho e finalização de compra.
+   - O processo de compra será simplificado, com um mínimo de etapas necessárias para concluir a compra.

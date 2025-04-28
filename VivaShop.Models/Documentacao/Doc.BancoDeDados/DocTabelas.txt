@@ -159,6 +159,8 @@ A tabela `Produtos` é utilizada para armazenar os dados dos produtos vendidos n
 
 ---
 
+Aqui está a versão atualizada da tabela `Usuarios`, com as novas colunas que você mencionou, incluindo a senha, endereço e contato do usuário:
+
 ### Tabela: Usuarios
 
 #### Visão Geral
@@ -170,6 +172,14 @@ A tabela `Usuarios` é utilizada para armazenar informações sobre os usuários
 |----------------|-----------------|--------------------------------------------------------------------------------------------------|-----------------------------|
 | **Id**         | `int`           | Identificador único do usuário.                                                               | `PRIMARY KEY`, `IDENTITY`   |
 | **NameUsuario**| `nvarchar(100)` | Nome do usuário.                                                                                | `NOT NULL`                  |
+| **SenhaHash**  | `nvarchar(255)` | Senha do usuário, armazenada de forma segura com hash.                                          | `NOT NULL`                  |
+| **Cidade**     | `nvarchar(100)` | Cidade onde o usuário reside.                                                                   | `NOT NULL`                  |
+| **Rua**        | `nvarchar(200)` | Endereço da rua onde o usuário reside.                                                          | `NOT NULL`                  |
+| **NumeroCasa** | `int`           | Número da casa ou apartamento do usuário.                                                       | `NOT NULL`                  |
+| **Bairro**     | `nvarchar(100)` | Bairro onde o usuário reside.                                                                   | `NOT NULL`                  |
+| **Estado**     | `nvarchar(100)` | Estado onde o usuário reside.                                                                   | `NOT NULL`                  |
+| **Telefone**   | `nvarchar(15)`  | Número de telefone do usuário.                                                                  | `NOT NULL`                  |
+| **Email**      | `nvarchar(100)` | Endereço de e-mail do usuário.                                                                  | `NOT NULL`, `UNIQUE`        |
 | **CarrinhoId** | `int`           | Referência ao carrinho de compras associado ao usuário.                                         | `FOREIGN KEY`, `NULL`       |
 
 #### Restrições e Índices
@@ -187,19 +197,19 @@ A tabela `Usuarios` é utilizada para armazenar informações sobre os usuários
 
 - **Inserir um novo usuário sem carrinho**:
   ```sql
-  INSERT INTO [dbo].[Usuarios] (NameUsuario)
-  VALUES ('João da Silva');
+  INSERT INTO [dbo].[Usuarios] (NameUsuario, SenhaHash, Cidade, Rua, NumeroCasa, Bairro, Estado, Telefone, Email)
+  VALUES ('João da Silva', 'hashedpassword123', 'Porto Alegre', 'Rua A', 123, 'Bairro X', 'RS', '(51) 99999-9999', 'joao@exemplo.com');
   ```
 
 - **Inserir um novo usuário com carrinho associado**:
   ```sql
-  INSERT INTO [dbo].[Usuarios] (NameUsuario, CarrinhoId)
-  VALUES ('Maria Oliveira', 1);
+  INSERT INTO [dbo].[Usuarios] (NameUsuario, SenhaHash, Cidade, Rua, NumeroCasa, Bairro, Estado, Telefone, Email, CarrinhoId)
+  VALUES ('Maria Oliveira', 'hashedpassword456', 'Caxias do Sul', 'Rua B', 456, 'Bairro Y', 'RS', '(54) 98888-8888', 'maria@exemplo.com', 1);
   ```
 
 - **Consultar todos os usuários com seus carrinhos**:
   ```sql
-  SELECT U.Id, U.NameUsuario, C.Id AS CarrinhoId
+  SELECT U.Id, U.NameUsuario, U.Email, C.Id AS CarrinhoId
   FROM [dbo].[Usuarios] U
   LEFT JOIN [dbo].[Carrinhos] C ON U.CarrinhoId = C.Id;
   ```
