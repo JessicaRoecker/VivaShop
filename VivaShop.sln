@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaShop.Web", "VivaShop.Web\VivaShop.Web.csproj", "{DDC6974C-C66B-45F8-959C-15A835DB6CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaShop.Models", "VivaShop.Models\VivaShop.Models.csproj", "{87B6E14B-CE6F-43CC-AAB5-679C2FA30361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VivaShop_Api", "VivaShop_Api\VivaShop_Api.csproj", "{0C0C2008-76F3-4A01-B024-D2B0FE509875}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDC6974C-C66B-45F8-959C-15A835DB6CFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC6974C-C66B-45F8-959C-15A835DB6CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDC6974C-C66B-45F8-959C-15A835DB6CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC6974C-C66B-45F8-959C-15A835DB6CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B6E14B-CE6F-43CC-AAB5-679C2FA30361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B6E14B-CE6F-43CC-AAB5-679C2FA30361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B6E14B-CE6F-43CC-AAB5-679C2FA30361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B6E14B-CE6F-43CC-AAB5-679C2FA30361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0C2008-76F3-4A01-B024-D2B0FE509875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0C2008-76F3-4A01-B024-D2B0FE509875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0C2008-76F3-4A01-B024-D2B0FE509875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0C2008-76F3-4A01-B024-D2B0FE509875}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

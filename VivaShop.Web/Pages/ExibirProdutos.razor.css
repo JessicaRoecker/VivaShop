@@ -1,0 +1,44 @@
+﻿/* Arquivo CSS */
+
+/* Estilo para o efeito de zoom ao passar o mouse */
+.imagem-efeito {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease; /* Suaviza a transição */
+}
+
+    .imagem-efeito:hover {
+        transform: scale(1.1); /* Aumenta a escala ao passar o mouse */
+    }
+
+/* Estilo do card */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+/* Estilo para o corpo do card */
+.card-body {
+    padding: 1rem;
+}
+
+/* Tamanho da imagem dentro do card */
+.card-img {
+    width: 100%; /* Garante que a imagem ocupe 100% da largura */
+    height: auto; /* Ajusta a altura proporcionalmente */
+}
+
+/* Tamanho do título e descrição */
+.card-title {
+    font-size: 0.9rem;
+}
+
+.card-text {
+    font-size: 0.8rem;
+}

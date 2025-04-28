@@ -1,0 +1,206 @@
+﻿**Documentação das Tabelas do Banco VivaShop**
+
+---
+
+### Tabela: CarrinhoItems
+
+#### Visão Geral
+A tabela `CarrinhoItems` é utilizada para armazenar os itens adicionados pelos usuários aos seus carrinhos de compras.
+
+#### Estrutura da Tabela
+
+| Coluna        | Tipo            | Descrição                                                                                     | Restrições                  |
+|---------------|-----------------|-------------------------------------------------------------------------------------------------|-----------------------------|
+| **Id**        | `int`           | Identificador único do item no carrinho.                                                       | `PRIMARY KEY`, `IDENTITY`   |
+| **CarrinhoId**| `int`           | Identificador do carrinho associado.                                                           | `FOREIGN KEY`, `NOT NULL`   |
+| **ProdutoId** | `int`           | Identificador do produto associado.                                                           | `FOREIGN KEY`, `NOT NULL`   |
+| **QuantidadeId** | `int`        | Identificador da quantidade do produto.                                                       | `NOT NULL`                  |
+
+#### Restrições e Índices
+
+1. **Chave Primária**:
+   - Coluna: `Id`
+   - Nome da restrição: `PK_CarrinhoItems`
+
+2. **Chaves Estrangeiras**:
+   - `CarrinhoId` referencia `Carrinhos(Id)` com exclusão em cascata.
+   - `ProdutoId` referencia `Produtos(Id)` com exclusão em cascata.
+
+#### Exemplos de Uso
+
+- **Inserir um item no carrinho**:
+  ```sql
+  INSERT INTO [dbo].[CarrinhoItems] (CarrinhoId, ProdutoId, QuantidadeId)
+  VALUES (1, 2, 3);
+  ```
+
+- **Consultar itens do carrinho de um usuário**:
+  ```sql
+  SELECT CI.Id, CI.QuantidadeId, P.Nome, P.Preco
+  FROM [dbo].[CarrinhoItems] CI
+  INNER JOIN [dbo].[Produtos] P ON CI.ProdutoId = P.Id
+  WHERE CI.CarrinhoId = 1;
+  ```
+
+---
+
+### Tabela: Carrinhos
+
+#### Visão Geral
+A tabela `Carrinhos` é utilizada para armazenar informações sobre os carrinhos de compras dos usuários.
+
+#### Estrutura da Tabela
+
+| Coluna        | Tipo            | Descrição                                                                                     | Restrições                  |
+|---------------|-----------------|-------------------------------------------------------------------------------------------------|-----------------------------|
+| **Id**        | `int`           | Identificador único do carrinho.                                                              | `PRIMARY KEY`, `IDENTITY`   |
+| **UsuarioId** | `nvarchar(max)` | Identificador do usuário associado ao carrinho.                                                | `NOT NULL`                  |
+
+#### Restrições e Índices
+
+1. **Chave Primária**:
+   - Coluna: `Id`
+   - Nome da restrição: `PK_Carrinhos`
+
+#### Exemplos de Uso
+
+- **Inserir um novo carrinho**:
+  ```sql
+  INSERT INTO [dbo].[Carrinhos] (UsuarioId)
+  VALUES ('Usuario123');
+  ```
+
+- **Consultar carrinhos de um usuário**:
+  ```sql
+  SELECT *
+  FROM [dbo].[Carrinhos]
+  WHERE UsuarioId = 'Usuario123';
+  ```
+
+---
+
+### Tabela: Categorias
+
+#### Visão Geral
+A tabela `Categorias` é utilizada para organizar os produtos por categorias.
+
+#### Estrutura da Tabela
+
+| Coluna   | Tipo            | Descrição                                                                                     | Restrições                  |
+|----------|-----------------|-------------------------------------------------------------------------------------------------|-----------------------------|
+| **Id**   | `int`           | Identificador único da categoria.                                                              | `PRIMARY KEY`, `IDENTITY`   |
+| **Nome** | `nvarchar(100)` | Nome da categoria.                                                                              | `NOT NULL`                  |
+| **IconCss** | `nvarchar(max)` | Classe CSS para representação visual do ícone da categoria.                                   | `NOT NULL`                  |
+
+#### Restrições e Índices
+
+1. **Chave Primária**:
+   - Coluna: `Id`
+   - Nome da restrição: `PK_Categorias`
+
+#### Exemplos de Uso
+
+- **Inserir uma nova categoria**:
+  ```sql
+  INSERT INTO [dbo].[Categorias] (Nome, IconCss)
+  VALUES ('Eletrônicos', 'icon-eletronicos');
+  ```
+
+- **Consultar todas as categorias**:
+  ```sql
+  SELECT *
+  FROM [dbo].[Categorias];
+  ```
+
+---
+
+### Tabela: Produtos
+
+#### Visão Geral
+A tabela `Produtos` é utilizada para armazenar os dados dos produtos vendidos na plataforma.
+
+#### Estrutura da Tabela
+
+| Coluna        | Tipo            | Descrição                                                                                     | Restrições                  |
+|---------------|-----------------|-------------------------------------------------------------------------------------------------|-----------------------------|
+| **Id**        | `int`           | Identificador único do produto.                                                              | `PRIMARY KEY`, `IDENTITY`   |
+| **Nome**      | `nvarchar(100)` | Nome do produto.                                                                               | `NOT NULL`                  |
+| **Descricao** | `nvarchar(500)` | Descrição detalhada do produto.                                                              | `NOT NULL`                  |
+| **ImagemUrl** | `nvarchar(200)` | URL da imagem do produto.                                                                     | `NOT NULL`                  |
+| **Preco**     | `decimal(10, 2)`| Preço do produto.                                                                             | `NOT NULL`                  |
+| **Quantidade**| `int`           | Quantidade disponível em estoque.                                                             | `NOT NULL`                  |
+| **CategoriaId** | `int`         | Identificador da categoria associada.                                                         | `FOREIGN KEY`, `NOT NULL`   |
+
+#### Restrições e Índices
+
+1. **Chave Primária**:
+   - Coluna: `Id`
+   - Nome da restrição: `PK_Produtos`
+
+2. **Chave Estrangeira**:
+   - Coluna: `CategoriaId`
+   - Nome da restrição: `FK_Produtos_Categorias_CategoriaId`
+   - Referência: `Categorias(Id)`
+
+#### Exemplos de Uso
+
+- **Inserir um novo produto**:
+  ```sql
+  INSERT INTO [dbo].[Produtos] (Nome, Descricao, ImagemUrl, Preco, Quantidade, CategoriaId)
+  VALUES ('Notebook', 'Notebook potente para jogos', '/imagens/notebook.jpg', 4500.00, 10, 1);
+  ```
+
+- **Consultar produtos de uma categoria**:
+  ```sql
+  SELECT *
+  FROM [dbo].[Produtos]
+  WHERE CategoriaId = 1;
+  ```
+
+---
+
+### Tabela: Usuarios
+
+#### Visão Geral
+A tabela `Usuarios` é utilizada para armazenar informações sobre os usuários cadastrados na plataforma.
+
+#### Estrutura da Tabela
+
+| Coluna         | Tipo            | Descrição                                                                                      | Restrições                  |
+|----------------|-----------------|--------------------------------------------------------------------------------------------------|-----------------------------|
+| **Id**         | `int`           | Identificador único do usuário.                                                               | `PRIMARY KEY`, `IDENTITY`   |
+| **NameUsuario**| `nvarchar(100)` | Nome do usuário.                                                                                | `NOT NULL`                  |
+| **CarrinhoId** | `int`           | Referência ao carrinho de compras associado ao usuário.                                         | `FOREIGN KEY`, `NULL`       |
+
+#### Restrições e Índices
+
+1. **Chave Primária**:
+   - Coluna: `Id`
+   - Nome da restrição: `PK_Usuarios`
+
+2. **Chave Estrangeira**:
+   - Coluna: `CarrinhoId`
+   - Nome da restrição: `FK_Usuarios_Carrinhos_CarrinhoId`
+   - Referência: `Carrinhos(Id)`
+
+#### Exemplos de Uso
+
+- **Inserir um novo usuário sem carrinho**:
+  ```sql
+  INSERT INTO [dbo].[Usuarios] (NameUsuario)
+  VALUES ('João da Silva');
+  ```
+
+- **Inserir um novo usuário com carrinho associado**:
+  ```sql
+  INSERT INTO [dbo].[Usuarios] (NameUsuario, CarrinhoId)
+  VALUES ('Maria Oliveira', 1);
+  ```
+
+- **Consultar todos os usuários com seus carrinhos**:
+  ```sql
+  SELECT U.Id, U.NameUsuario, C.Id AS CarrinhoId
+  FROM [dbo].[Usuarios] U
+  LEFT JOIN [dbo].[Carrinhos] C ON U.CarrinhoId = C.Id;
+  ```
+

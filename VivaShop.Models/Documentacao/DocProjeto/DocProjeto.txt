@@ -1,0 +1,54 @@
+﻿# Documentação do Projeto VivaShop
+
+## Estrutura do Projeto
+
+O projeto VivaShop foi desenvolvido utilizando .NET 8 e é composto por três principais componentes:
+
+1. **Projeto Class Library**:
+   - Contém as classes de modelo (Models), utilizadas para trafegar dados entre o backend e o frontend de forma segura.
+   - **Motivação**:
+     - Fornecer uma camada extra de segurança ao separar os dados trafegados das implementações de banco de dados.
+     - Facilitar a reutilização de código em diferentes partes do sistema.
+   - Localização:
+     - As classes Models estão organizadas em uma pasta dedicada, permitindo organização e manutenção do código.
+
+2. **Projeto API Rest**:
+   - Responsável pela criação da API que interage com o banco de dados e fornece os dados necessários para o frontend.
+   - Estrutura:
+     - **Controllers**: Contêm as rotas e lógica para atender às requisições feitas ao sistema.
+     - **Repository**: Gerencia o acesso ao banco de dados.
+       - Cada classe no repositório implementa uma interface.
+       - **Motivação do uso de interfaces**:
+         - Garantir padronização e facilitar a substituição ou alteração de implementações sem impactar outras partes do sistema.
+     - **Injeção de dependências**:
+       - **Motivação**:
+         - Promover o desacoplamento entre os componentes do sistema, facilitando testes unitários e manutenção do código.
+         - Permitir substituição fácil de dependências, como mudanças no repositório ou serviços externos.
+
+3. **Projeto Web**:
+   - Baseado em Blazor WebAssembly, permite a criação de uma aplicação frontend totalmente interativa.
+   - **Estrutura**:
+     - **HTML, CSS e C#**: Integração entre tecnologias para criar uma experiência de usuário rica e responsiva.
+     - **Pasta Services**: Responsável pela comunicação com a API.
+       - **Motivação**:
+         - Centralizar a lógica de comunicação com o backend.
+         - Facilitar a manutenção e reutilização do código.
+
+## Tipo de Estrutura Utilizada
+
+A estrutura adotada segue o padrão de separação de responsabilidades (“Separation of Concerns”), com uma abordagem modular para garantir:
+
+1. **Escalabilidade**:
+   - Cada módulo pode ser expandido ou alterado sem impactar diretamente outros componentes.
+
+2. **Manutenção**:
+   - Facilita a identificação de problemas e a realização de ajustes.
+
+3. **Testabilidade**:
+   - A estrutura modular e o uso de interfaces permitem testes unitários mais precisos e independentes.
+
+4. **Reutilização de Código**:
+   - Classes e serviços são projetados para serem reaproveitados em diferentes partes do sistema.
+
+Com essa estrutura, o projeto VivaShop está alinhado com as melhores práticas de desenvolvimento de software, garantindo qualidade e flexibilidade para evolução futura.
+
