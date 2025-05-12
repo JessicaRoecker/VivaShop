@@ -1,0 +1,180 @@
+﻿@page "/CarrinhoCompra"
+@inject IJSRuntime Js;
+
+@if (CarrinhoCompraItens is null && MensagemErro is null)
+{
+    <h3>Carregando...</h3>
+}
+else if (MensagemErro is not null)
+{
+    <ExibirErro MensagemErro="@MensagemErro"></ExibirErro>
+}
+else
+{
+    <h3 class="mb-5">Carrinho</h3>
+    @if (CarrinhoCompraItens.Count > 0)
+    {
+        <div class="row mb-5">
+            <div class="col-md-9">
+                @foreach (var item in CarrinhoCompraItens)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <img src="@item.ImagemUrl" width="250" class="img-thumbnail" />
+                        </div>
+                        <div class="col-md-9">
+                            <h5>@item.Nome</h5>
+                            <div class="mb-4">
+                                <span>
+                                    Preço: <b>@item.Preco.ToString("C")</b>
+                                    <input @oninput="()=> CarrinhoItemAtualizaQuantidade_Imput(item.Id)" type="number"
+                                    @bind="@item.QuantidadeId" class="form-control d-inline-block w-auto" />
+                                    <button data-itemId="@item.Id" class="btn btn-info btn-sm atualizaquantidade"
+                                    @onclick="(() => AtualizaQuantidadeCarrinhoItem_Click(item.Id, item.QuantidadeId))">
+                                        <i class="oi oi-check"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" @onclick="(() => DeletaCarrinhoItem_Click(item.Id))">
+                                        <span class="oi oi-trash" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3">
+                <h5>Carrinho - Resumo</h5>
+                <div>Total - (@QuantidadeTotal itens) <b>@PrecoTotal</b></div>
+                <a href="#" class="btn btn-success">
+                    <span class="oi oi-credit-card"></span> Fechar Pedido
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3><b>Seu carrinho está vazio</b></h3>
+        </div>
+    }
+}
+
+@code {
+    [Inject]
+    public ICarrinhoCompraService? CarrinhoCompras { get; set; }
+    public List<CarrinhoItemDto>? CarrinhoCompraItens { get; set; }
+    public string? MensagemErro { get; set; }
+    protected string? PrecoTotal { get; set; }
+    protected int QuantidadeTotal { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CarrinhoCompraItens = await CarrinhoCompras.GetItems(UsuarioLogado.UsuarioId);
+
+            CarrinhoChanged();
+        }
+        catch (Exception ex)
+        {
+            MensagemErro = ex.Message;
+        }
+    }
+
+    protected async Task DeletaCarrinhoItem_Click(int id)
+    {
+        try
+        {
+            var carrinhoItem = await CarrinhoCompras.DeleteItem(id);
+            if (carrinhoItem != null)
+            {
+                await RemoveItemCarrinho(id);
+                CarrinhoChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            MensagemErro = $"Erro ao deletar o item: {ex.Message}";
+        }
+    }
+
+    private async Task RemoveItemCarrinho(int id)
+    {
+        var carrinhoItem = CarrinhoCompraItens?.FirstOrDefault(i => i.Id == id);
+        if (carrinhoItem != null)
+        {
+            CarrinhoCompraItens.Remove(carrinhoItem);
+        }
+    }
+
+    protected async Task AtualizaQuantidadeCarrinhoItem_Click(int id, int quantidade)
+    {
+        try
+        {
+            if (quantidade > 0)
+            {
+                var atualizaItem = new CarrinhoItemAtualizaQuantidade
+                    {
+                        ProdutoId = id,
+                        QuantidadeId = quantidade
+                    };
+
+                var retornaAtualizacao = await CarrinhoCompras.AtualizaQuantidade(atualizaItem);
+                AtualizaPrecoTotalItem(retornaAtualizacao);
+                CarrinhoChanged();
+                await Js.InvokeVoidAsync("TornarBotaoAtualizarQuantidadeVisivel", id, false);
+            }
+            else
+            {
+                var item = CarrinhoCompraItens?.FirstOrDefault(i => i.Id == id);
+                if (item != null)
+                {
+                    item.QuantidadeId = 1;
+                    item.PrecoTotal = item.Preco;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MensagemErro = $"Erro ao atualizar a quantidade: {ex.Message}";
+        }
+    }
+
+    private void SetPrecoTotal()
+    {
+        PrecoTotal = CarrinhoCompraItens?.Sum(p => p.Preco * p.QuantidadeId).ToString("C");
+    }
+
+    private void SetQuantidadeTotal()
+    {
+        QuantidadeTotal = CarrinhoCompraItens?.Sum(p => p.QuantidadeId) ?? 0;
+    }
+
+    private void CalculaResumoCarrinhoTotal()
+    {
+        SetPrecoTotal();
+        SetQuantidadeTotal();
+    }
+
+    private void AtualizaPrecoTotalItem(CarrinhoItemDto carrinhoItem)
+    {
+        var item = CarrinhoCompraItens?.FirstOrDefault(i => i.Id == carrinhoItem.Id);
+        if (item != null)
+        {
+            item.PrecoTotal = carrinhoItem.Preco * carrinhoItem.QuantidadeId;
+
+        }
+    }
+
+    private async Task CarrinhoItemAtualizaQuantidade_Imput(int id)
+    {
+        await Js.InvokeVoidAsync("TornarBotaoAtualizarQuantidadeVisivel", id, true);
+    }
+
+    private void CarrinhoChanged(){
+        CalculaResumoCarrinhoTotal();
+        CarrinhoCompras.RaiseEventoCarrinhoCompraChanged(QuantidadeTotal);
+    }
+
+}

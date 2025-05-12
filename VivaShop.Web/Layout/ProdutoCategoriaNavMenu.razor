@@ -1,0 +1,39 @@
+﻿@if (categoriaDtos == null && MenssageError == null)
+{
+	<h3>Carregando ...</h3>
+}
+else if (MenssageError != null)
+{
+	<ExibirErro MensagemErro="@MenssageError" />
+}
+else
+{
+	@foreach (var categoria in categoriaDtos)
+	{
+		<NavLink class="nav-link" href="@($"/ProdutosPorCategorias/{categoria.Id}")">
+			<span class="@categoria.IconCSS"></span>&nbsp;@categoria.Nome
+		</NavLink>
+	}
+}
+
+
+@code {
+	[Inject]
+	public IProdutoService? produtoService { get; set; }
+
+	public IEnumerable<CategoriaDto>? categoriaDtos { get; set; }
+
+	public string? MenssageError { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			categoriaDtos = await produtoService.GetCategorias();
+		}
+		catch(Exception ex)
+		{
+			MenssageError = ex.Message;
+		}
+	}
+}

@@ -72,5 +72,59 @@
             }
         }
 
+        public async Task<IEnumerable<ProdutoDto>> ObterProdutosCarrinhoUsuario(IEnumerable<CarrinhoItemDto> carrinhoItens)
+        {
+            using (IDbConnection connection = new SqlConnection(_conectionString))
+            {
+                string query = @"
+                        SELECT p.*
+                        FROM Produtos p
+                        WHERE p.Id IN @ProdutoIds";
+
+                var produtoIds = carrinhoItens.Select(ci => ci.ProdutoId).ToArray();
+
+                var result = await connection.QueryAsync<ProdutoDto>(query, new { ProdutoIds = produtoIds });
+
+                return result;
+            }
+        }
+
+       public async Task<IEnumerable<ProdutoDto>> GetItensPorCategoria(int id)
+{
+    using (IDbConnection connection = new SqlConnection(_conectionString))
+    {
+        string query = @"
+            SELECT 
+                p.Id AS Id,
+                p.Nome AS Nome,
+                p.Descricao AS Descricao,
+                p.ImagemUrl AS ImagemUrl,
+                p.Preco AS Preco,
+                p.Quantidade AS Quantidade,
+                p.CategoriaId AS CategoriaId,
+                c.Nome AS CategoriaNome
+            FROM Produtos AS p
+            JOIN Categorias AS c ON p.CategoriaId = c.Id
+            WHERE c.Id = @id";
+
+        var produtos = await connection.QueryAsync<ProdutoDto>(query, new { id });
+        return produtos;
+    }
+}
+
+
+
+        public async Task<IEnumerable<CategoriaDto>> GetCategoria()
+        {
+            using (IDbConnection connection = new SqlConnection(_conectionString))
+            {
+                string query = @"
+                                SELECT *
+                                FROM Categorias";
+
+                var categorias = await connection.QueryAsync<CategoriaDto>(query);
+                return categorias;
+            }
+        }
     }
 }

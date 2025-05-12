@@ -15,6 +15,8 @@ namespace VivaShop.Web.Services
             _logger = logger;
         }
 
+      
+
         public async Task<ProdutoDto> GetItem(int id)
         {
             try
@@ -72,6 +74,55 @@ namespace VivaShop.Web.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Erro ao acessar produtos : api/produtos. ERRO:{ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<CategoriaDto>> GetCategorias()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Produtos/GetCategoria");
+
+                response.EnsureSuccessStatusCode();
+
+                var jsonString = await response.Content.ReadAsStringAsync();
+
+                var categorias = JsonSerializer.Deserialize<IEnumerable<CategoriaDto>>(jsonString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return categorias ?? Enumerable.Empty<CategoriaDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Erro ao acessar categorias: api/Produtos/GetCategoria. ERRO: {ex.Message}");
+                throw;
+            }
+        }
+
+
+        public async Task<IEnumerable<ProdutoDto>> GetItensPorCategoria(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/Produtos/{id}/GetItensPorCategoria");
+
+                response.EnsureSuccessStatusCode();
+
+                var jsonString = await response.Content.ReadAsStringAsync();
+
+                var produtoDto = JsonSerializer.Deserialize<IEnumerable<ProdutoDto>>(jsonString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return produtoDto ?? Enumerable.Empty<ProdutoDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Erro ao acessar produtos : api/Produtos/{id}/GetItensPorCategoria. ERRO:{ex.Message}");
                 throw;
             }
         }

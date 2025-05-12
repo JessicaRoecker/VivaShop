@@ -10,5 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var baseUri = "https://localhost:7228";
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseUri)});
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddScoped<ICarrinhoCompraService, CarrinhoCompraService>();
 
 await builder.Build().RunAsync();

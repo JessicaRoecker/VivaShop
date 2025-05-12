@@ -1,0 +1,52 @@
+﻿@page "/ProdutosPorCategorias/{CategoriaId:int}"
+
+@if (ProdutoDtos == null && MenssagemErro == null)
+{
+    <h3>Carregando ...</h3>
+}
+else if (MenssagemErro != null)
+{
+    <ExibirErro MensagemErro="@MenssagemErro" />
+}
+else
+{
+    <h3>Produtos (@NomeCategoria)</h3>
+
+    @if (ProdutoDtos.Any())
+    {
+        <div class="row mt-3">
+            <ExibirProdutos Produtos="@ProdutoDtos"></ExibirProdutos>
+        </div>
+    }
+    else
+    {
+        <p>Não há produtos disponíveis para essa categoria.</p>
+    }
+}
+
+@code {
+    [Parameter]
+    public int CategoriaId { get; set; }
+
+    [Inject]
+    public IProdutoService ProdutoService { get; set; }
+
+    public IEnumerable<ProdutoDto>? ProdutoDtos { get; set; }
+    public string? NomeCategoria { get; set; }
+    public string? MenssagemErro { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            // Obtendo os produtos da categoria
+            ProdutoDtos = await ProdutoService.GetItensPorCategoria(CategoriaId);
+            // Definindo o nome da categoria a partir do primeiro produto da lista
+            NomeCategoria = ProdutoDtos.FirstOrDefault()?.CategoriaNome ?? "Categoria Desconhecida";
+        }
+        catch (Exception ex)
+        {
+            MenssagemErro = ex.Message;
+        }
+    }
+}

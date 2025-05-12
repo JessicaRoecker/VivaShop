@@ -10,11 +10,11 @@ namespace VivaShop.Models.DTOs
     public class CarrinhoItemAdicionaDto
     {
         [Required]
-        public int CarrinhiId { get; set; }
+        public int CarrinhoId { get; set; }
         [Required]
         public int ProdutoId { get; set; }
         [Required]
-        public int Qusntidade { get; set; }
+        public int QuantidadeId { get; set; }
 
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<ICarrinhoCompraRepository, CarrinhoCompraRepository>();
 builder.Configuration.GetConnectionString("MinhaConexao");
 
 var app = builder.Build();

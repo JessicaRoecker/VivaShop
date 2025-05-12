@@ -3,7 +3,7 @@
 
 @if (Produtos == null)
 {
-	<h3>Carregando produtos ....</h3>
+	<ExibirSpinner />
 }
 else
 {
@@ -27,7 +27,7 @@ else
 			<br />
 			<br />
 		}
-	
+
 	}
 }
 
@@ -36,9 +36,17 @@ else
 
 	public IEnumerable<ProdutoDto>? Produtos { get; set; }
 
+	[Inject]
+	public ICarrinhoCompraService carrinhoCompraService { get; set; }
+
 	protected override async Task OnInitializedAsync()
 	{
 		Produtos = await produtoService.GetItens();
+
+		var carrinhoCompraItens = await carrinhoCompraService.GetItems(UsuarioLogado.UsuarioId);
+		var totalQuantidade = carrinhoCompraItens.Sum(i => i.QuantidadeId);
+
+		carrinhoCompraService.RaiseEventoCarrinhoCompraChanged(totalQuantidade);
 	}
 
 }
